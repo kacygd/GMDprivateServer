@@ -253,7 +253,7 @@ class mainLib {
 		return array($starDifficulty, $starDemon, $starAuto);
 	}
 	public function getGauntletName($id, $wholeArray = false){
-		$gauntlets = ["Unknown", "Fire", "Ice", "Poison", "Shadow", "Lava", "Bonus", "Chaos", "Demon", "Time", "Crystal", "Magic", "Spike", "Monster", "Doom", "Death", 'Forest', 'Rune', 'Force', 'Spooky', 'Dragon', 'Water', 'Haunted', 'Acid', 'Witch', 'Power', 'Potion', 'Snake', 'Toxic', 'Halloween', 'Treasure', 'Ghost', 'Spider', 'Gem', 'Inferno', 'Portal', 'Strange', 'Fantasy', 'Christmas', 'Surprise', 'Mystery', 'Cursed', 'Cyborg', 'Castle', 'Grave', 'Temple', 'World', 'Galaxy', 'Universe', 'Discord', 'Split', 'NCS I', 'NCS II', 'Space', 'Cosmos'];
+		$gauntlets = ["Unknown", "Fire", "Ice", "Poison", "Shadow", "Lava", "Bonus", "Chaos", "Demon", "Time", "Crystal", "Magic", "Spike", "Monster", "Doom", "Death", 'Forest', 'Rune', 'Force', 'Spooky', 'Dragon', 'Water', 'Haunted', 'Acid', 'Witch', 'Power', 'Potion', 'Snake', 'Toxic', 'Halloween', 'Treasure', 'Ghost', 'Spider', 'Gem', 'Inferno', 'Portal', 'Strange', 'Fantasy', 'Christmas', 'Surprise', 'Mystery', 'Cursed', 'Cyborg', 'Castle', 'Grave', 'Temple', 'World', 'Galaxy', 'Universe', 'Discord', 'Split', 'NCS I', 'NCS II', 'Space', 'Cosmos', 'Random', 'Chance', 'Future', 'Utopia', 'Cinema', 'Love'];
 		if($wholeArray) return $gauntlets;
 		if($id < 0 || $id >= count($gauntlets))
 			return $gauntlets[0];
@@ -815,6 +815,7 @@ class mainLib {
 		$query->execute([':demon' => $demon, ':auto' => $auto, ':diff' => $difficulty, ':stars' => $stars, ':levelID'=>$levelID, ':now' => time()]);
 		$query = $db->prepare("INSERT INTO modactions (type, value, value2, value3, timestamp, account) VALUES ('1', :value, :value2, :levelID, :timestamp, :id)");
 		$query->execute([':value' => $diffName, ':timestamp' => time(), ':id' => $accountID, ':value2' => $stars, ':levelID' => $levelID]);
+		$this->sendRateWebhook($accountID, $levelID);
 		if($automaticCron) Cron::updateCreatorPoints($accountID, false);
 	}
 	public function featureLevel($accountID, $levelID, $state) {
@@ -1404,7 +1405,7 @@ class mainLib {
 			$token = $this->randomString(11);
 			$expires = time() + 3600;
 			$link = $servers[$song['server']].'/music/'.$song['originalID'].'.ogg?token='.$token.'&expires='.$expires;
-			return ['server' => $song['server'], 'ID' => $id, 'name' => $song['name'], 'authorID' => $song['authorID'], 'authorName' => $author['name'], 'size' => is_numeric($song['size']) ? round($song['size'] / 1024 / 1024, 2) : 0, 'download' => $link, 'seconds' => $song['seconds'], 'tags' => $song['tags'], 'ncs' => $song['ncs'], 'artists' => $song['artists'], 'externalLink' => $song['externalLink'], 'new' => $song['new'], 'priorityOrder' => $song['priorityOrder']];
+			return ['server' => $song['server'], 'ID' => $id, 'name' => $song['name'], 'authorID' => $song['authorID'], 'authorName' => $author['name'], 'size' => round($song['size'] / 1024 / 1024, 2), 'download' => $link, 'seconds' => $song['seconds'], 'tags' => $song['tags'], 'ncs' => $song['ncs'], 'artists' => $song['artists'], 'externalLink' => $song['externalLink'], 'new' => $song['new'], 'priorityOrder' => $song['priorityOrder']];
 		} else {
 			$SFX = $library['IDs'][$id];
 			$token = $this->randomString(11);
@@ -3046,25 +3047,17 @@ class mainLib {
 				$string = $this->randomString(4);
 				$query = $db->prepare("UPDATE accounts SET mail = :mail WHERE userName = :user");
 				$query->execute([':mail' => $string, ':user' => $user]);
-				$m->Subject = 'CPS Activate Account';
-				$m->Body = '<p>Thank you for registering CPS account!</p>
-				<p>Your account information:</p> 
-				<p>Username: <b>'.$user.'</b></p>
-				<p>Please click the link below to activate your account:</p>
-				<p>'.dirname('https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']).'/activate.php?mail='.$string.'</p>
-				<p>Please contact customgamegd0@gmail.com or DM @kacygd in Discord, if you have any questions or need assistance.</p>
-				<p>Regards,</p>
-				<p>KacyGD</p>';
+				$m->Subject = 'Confirm link';
+				$m->Body = '<h1 align=center>Hello, <b>'.$user.'</b>!</h1><br>
+				<h2 align=center>It seems, that you wanna register new account in <b>'.$gdps.'</b></h2><br>
+				<h2 align=center>Here is your link!</h2><br>
+				<h1 align=center>'.dirname('https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']).'/activate.php?mail='.$string.'</h1>';
 			} else {
-				$m->Subject = 'Reset CPS Password';
-				$m->Body = '<p>>You have requested a password reset for your CPS account.</p>
-				<p>Your account information:</p> 
-				<p>Username: <b>'.$user.'</b></p>
-				<p>Please click on the link below to reset your password:</p>
-				<p>https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'?code='.$isForgotPass.'</p>
-				<p>Please contact customgamegd0@gmail.com or DM @kacygd in Discord, if you have any questions or need assistance.</p>
-				<p>Regards,</p>
-				<p>KacyGD</p>';
+				$m->Subject = 'Forgot password?';
+				$m->Body = '<h1 align=center>Hello, <b>'.$user.'</b>!</h1><br>
+				<h2 align=center>It seems, that you forgot your password in <b>'.$gdps.'</b>...</h2><br>
+				<h2 align=center>Here is your link!</h2><br>
+				<h1 align=center>https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'?code='.$isForgotPass.'</h1>';
 			}
 			return $m->send();
 		}
