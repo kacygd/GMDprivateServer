@@ -2,7 +2,8 @@
 require_once __DIR__ . "/ip_in_range.php";
 class mainLib {
 	public function getAudioTrack($id) {
-		$songs = ["Stereo Madness by ForeverBound",
+		$songs = [
+			"Stereo Madness by ForeverBound",
 			"Back on Track by DJVI",
 			"Polargeist by Step",
 			"Dry Out by DJVI",
@@ -39,11 +40,12 @@ class mainLib {
 			"Embers by Dex Arson",
 			"Round 1 by Dex Arson",
 			"Monster Dance Off by F-777",
- 		        "Press Start by MDK",
-   		        "Nock Em by Bossfight",
-  		        "Power Trip by Boom Kitty"];
-	        if ($id === -1) return "Practice: Stay Inside Me by OcularNebula";
-                if ($id < 0 || $id >= count($songs)) return "Unknown by DJVI";
+			"Press Start by MDK",
+			"Nock Em by Bossfight",
+			"Power Trip by Boom Kitty"
+		];
+		if($id === -1) return "Practice: Stay Inside Me by OcularNebula";
+		if($id < 0 || $id >= count($songs)) return "Unknown by DJVI";
 		return $songs[$id];
 	}
 	public function getDifficulty($diff, $auto, $demon, $demonDiff = 1) {
@@ -289,7 +291,7 @@ class mainLib {
 		require __DIR__ . "/../../config/security.php";
 		require_once __DIR__ . "/exploitPatch.php";
 		require_once __DIR__ . "/GJPCheck.php";
-		if(!empty($_POST["udid"]) AND $unregisteredSubmissions) {
+		if(!empty($_POST["udid"]) && $unregisteredSubmissions) {
 			$id = ExploitPatch::remove($_POST["udid"]);
 			if(is_numeric($id)) exit("-1");
 		} elseif(!empty($_POST["accountID"]) AND $_POST["accountID"] !="0") $id = GJPCheck::getAccountIDOrDie();
@@ -396,23 +398,22 @@ class mainLib {
 		}
 		return "1~|~".$song["ID"]."~|~2~|~".ExploitPatch::translit(str_replace("#", "", $song["name"]))."~|~3~|~".$song["authorID"]."~|~4~|~".ExploitPatch::translit($song["authorName"])."~|~5~|~".$song["size"]."~|~6~|~~|~10~|~".$dl."~|~7~|~~|~8~|~1".$extraSongString;
 	}
-	public function getSongInfo($id, $column = "*") {
+	public function getSongInfo($id, $column = "*", $library = false) {
 	    if(!is_numeric($id)) return;
 	    require __DIR__ . "/connection.php";
 	    $sinfo = $db->prepare("SELECT $column FROM songs WHERE ID = :id");
 	    $sinfo->execute([':id' => $id]);
 	    $sinfo = $sinfo->fetch();
 	    if(empty($sinfo)) {
-			$sinfo = $this->getLibrarySongInfo($id, 'music');
+			$sinfo = $this->getLibrarySongInfo($id, 'music', $library);
 			if(!$sinfo) return false;
 			else {
 				if($column != "*")  return $sinfo[$column];
-				else return array("ID" => $sinfo["ID"], "name" => $sinfo["name"], "authorName" => $sinfo["authorName"], "size" => $sinfo["size"], "duration" => $sinfo["duration"], "download" => $sinfo["download"], "reuploadTime" => $sinfo["reuploadTime"], "reuploadID" => $sinfo["reuploadID"]);
+				else return array("isLocalSong" => false, "ID" => $sinfo["ID"], "name" => $sinfo["name"], "authorName" => $sinfo["authorName"], "size" => $sinfo["size"], "duration" => $sinfo["duration"], "download" => $sinfo["download"], "reuploadTime" => $sinfo["reuploadTime"], "reuploadID" => $sinfo["reuploadID"]);
 			}
-		}
-	    else {
+		} else {
 	        if($column != "*")  return $sinfo[$column];
-	        else return array("ID" => $sinfo["ID"], "name" => $sinfo["name"], "authorName" => $sinfo["authorName"], "size" => $sinfo["size"], "duration" => $sinfo["duration"], "download" => $sinfo["download"], "reuploadTime" => $sinfo["reuploadTime"], "reuploadID" => $sinfo["reuploadID"]);
+	        else return array("isLocalSong" => true, "ID" => $sinfo["ID"], "name" => $sinfo["name"], "authorName" => $sinfo["authorName"], "size" => $sinfo["size"], "duration" => $sinfo["duration"], "download" => $sinfo["download"], "reuploadTime" => $sinfo["reuploadTime"], "reuploadID" => $sinfo["reuploadID"]);
 	    }
 	}
 	public function getSFXInfo($id, $column = "*") {
@@ -697,7 +698,7 @@ class mainLib {
 		if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && ipInRange::ipv4_in_range($_SERVER['REMOTE_ADDR'], '127.0.0.0/8')) //LOCALHOST REVERSE PROXY SUPPORT (7m.pl)
 			return $_SERVER['HTTP_X_FORWARDED_FOR'];
 		if(isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['REMOTE_ADDR'] == "10.0.1.10") // 141412 PROXY SUPPORT FUCK YOU HESTIA
-            		return $_SERVER['HTTP_X_FORWARDED_FOR'];
+            		return explode(",", $_SERVER['HTTP_X_FORWARDED_FOR'])[0]; // fuck my life
 		return $_SERVER['REMOTE_ADDR'];
 	}
 	public function checkModIPPermission($permission){
@@ -806,13 +807,15 @@ class mainLib {
 	public function rateLevel($accountID, $levelID, $stars, $difficulty, $auto, $demon) {
 		if(!is_numeric($accountID)) return false;
 		require __DIR__ . "/connection.php";
+		require __DIR__ . "/../../config/misc.php";
+		require_once __DIR__ . "/cron.php";
 		$diffName = $this->getDiffFromStars($stars)["name"];
 		$query = "UPDATE levels SET starDemon=:demon, starAuto=:auto, starDifficulty=:diff, starStars=:stars, rateDate=:now WHERE levelID=:levelID";
 		$query = $db->prepare($query);	
 		$query->execute([':demon' => $demon, ':auto' => $auto, ':diff' => $difficulty, ':stars' => $stars, ':levelID'=>$levelID, ':now' => time()]);
 		$query = $db->prepare("INSERT INTO modactions (type, value, value2, value3, timestamp, account) VALUES ('1', :value, :value2, :levelID, :timestamp, :id)");
 		$query->execute([':value' => $diffName, ':timestamp' => time(), ':id' => $accountID, ':value2' => $stars, ':levelID' => $levelID]);
-		$this->sendRateWebhook($accountID, $levelID);
+		if($automaticCron) Cron::updateCreatorPoints($accountID, false);
 	}
 	public function featureLevel($accountID, $levelID, $state) {
 		if(!is_numeric($accountID)) return false;
@@ -1221,10 +1224,12 @@ class mainLib {
 			$server = $serverIDs[null];
 			foreach($sfxs AS &$customSFX) {
 				if(!isset($folderID[$customSFX['reuploadID']])) {
-					$idsConverter['count']++;
-					$idsConverter['IDs'][$idsConverter['count']] = ['server' => $server, 'ID' => $customSFX['ID'], 'name' => $customSFX['userName'].'\'s SFXs', 'type' => 1];
-					$idsConverter['originalIDs'][$server][$customSFX['reuploadID']] = $idsConverter['count'];
-					$newID = $idsConverter['count'];
+					if(empty($idsConverter['originalIDs'][$server][$customSFX['reuploadID']])) {
+						$idsConverter['count']++;
+						$idsConverter['IDs'][$idsConverter['count']] = ['server' => $server, 'ID' => $customSFX['ID'], 'name' => $customSFX['userName'].'\'s SFXs', 'type' => 1];
+						$idsConverter['originalIDs'][$server][$customSFX['reuploadID']] = $idsConverter['count'];
+						$newID = $idsConverter['count'];
+					} else $newID = $idsConverter['originalIDs'][$server][$customSFX['reuploadID']];
 					$library['folders'][$newID] = [
 						'name' => ExploitPatch::escapedat($customSFX['userName']).'\'s SFXs',
 						'type' => 1,
@@ -1237,10 +1242,12 @@ class mainLib {
 					];
 					$folderID[$customSFX['reuploadID']] = true;
 				}
-				$idsConverter['count']++;
-				$idsConverter['IDs'][$idsConverter['count']] = ['server' => $server, 'ID' => $customSFX['ID'], 'name' => $customSFX['name'], 'type' => 0];
-				$idsConverter['originalIDs'][$server][$customSFX['ID']] = $idsConverter['count'];
-				$customSFX['ID'] = $idsConverter['count'];
+				if(empty($idsConverter['originalIDs'][$server][$customSFX['ID'] + 8000000])) {
+					$idsConverter['count']++;
+					$idsConverter['IDs'][$idsConverter['count']] = ['server' => $server, 'ID' => $customSFX['ID'], 'name' => $customSFX['name'], 'type' => 0];
+					$idsConverter['originalIDs'][$server][$customSFX['ID'] + 8000000] = $idsConverter['count'];
+					$customSFX['ID'] = $idsConverter['count'];
+				} else $customSFX['ID'] = $idsConverter['originalIDs'][$server][$customSFX['ID'] + 8000000];
 				$library['files'][$customSFX['ID']] = $gdpsLibrary['files'][$customSFX['ID']] = [
 					'name' => ExploitPatch::escapedat($customSFX['name']),
 					'type' => 0,
@@ -1249,6 +1256,7 @@ class mainLib {
 					'milliseconds' => (int)($customSFX['milliseconds'] / 10)
 				];
 			}
+			$filesEncrypted = $creditsEncrypted = [];
 			foreach($library['folders'] AS $id => &$folder) $filesEncrypted[] = implode(',', [$id, $folder['name'], 1, $folder['parent'], 0, 0]);
 			foreach($library['files'] AS $id => &$file) $filesEncrypted[] = implode(',', [$id, $file['name'], 0, $file['parent'], $file['bytes'], $file['milliseconds']]);
 			foreach($library['credits'] AS &$credit) $creditsEncrypted[] = implode(',', [$credit['name'], $credit['website']]);
@@ -1290,7 +1298,7 @@ class mainLib {
 					'ID' => ($customSongs['ID']),
 					'name' => !empty($customSongs['name']) ? $customSongs['name'] : 'Unnamed',
 					'authorID' => (int)($serverIDs[null]. 0 .$folderID[$authorName]),
-					'size' => ($customSongs['size'] * 1024 * 1024),
+					'size' => $customSongs['size'] * 1024 * 1024,
 					'seconds' => $customSongs['duration'],
 					'tags' => '.'.$serverIDs[null].'.'.$serverIDs[null]. 0 .$accIDs[$customSongs['reuploadID']].'.',
 					'ncs' => 0,
@@ -1300,6 +1308,7 @@ class mainLib {
 					'priorityOrder' => 0
 				];
 			}
+			$authorsEncrypted = $songsEncrypted = $tagsEncrypted = [];
 			foreach($library['authors'] AS &$authorList) {
 				unset($authorList['server']);
 				unset($authorList['type']);
@@ -1378,7 +1387,7 @@ class mainLib {
 		$result = isset($response['success']) ? $response['success'] : false;
 		return $result;
 	}
-	public function getLibrarySongInfo($id, $type = 'music') {
+	public function getLibrarySongInfo($id, $type = 'music', $extraLibrary = false) {
 		require __DIR__."/../../config/dashboard.php";
 		if(!file_exists(__DIR__.'/../../'.$type.'/ids.json')) return false;
 		$servers = $serverIDs = $serverNames = [];
@@ -1387,7 +1396,7 @@ class mainLib {
 			$serverNames[$customLib[0]] = $customLib[1];
 			$serverIDs[$customLib[2]] = $customLib[0];
 		}
-		$library = json_decode(file_get_contents(__DIR__.'/../../'.$type.'/ids.json'), true);
+		$library = $extraLibrary ? $extraLibrary : json_decode(file_get_contents(__DIR__.'/../../'.$type.'/ids.json'), true);
 		if(!isset($library['IDs'][$id]) || ($type == 'music' && $library['IDs'][$id]['type'] != 1)) return false;
 		if($type == 'music') {
 			$song = $library['IDs'][$id];
@@ -1395,13 +1404,13 @@ class mainLib {
 			$token = $this->randomString(11);
 			$expires = time() + 3600;
 			$link = $servers[$song['server']].'/music/'.$song['originalID'].'.ogg?token='.$token.'&expires='.$expires;
-			return ['server' => $song['server'], 'ID' => $id, 'name' => $song['name'], 'authorID' => $song['authorID'], 'authorName' => $author['name'], 'size' => round($song['size'] / 1024 / 1024, 2), 'download' => $link, 'seconds' => $song['seconds'], 'tags' => $song['tags'], 'ncs' => $song['ncs'], 'artists' => $song['artists'], 'externalLink' => $song['externalLink'], 'new' => $song['new'], 'priorityOrder' => $song['priorityOrder']];
+			return ['server' => $song['server'], 'ID' => $id, 'name' => $song['name'], 'authorID' => $song['authorID'], 'authorName' => $author['name'], 'size' => is_numeric($song['size']) ? round($song['size'] / 1024 / 1024, 2) : 0, 'download' => $link, 'seconds' => $song['seconds'], 'tags' => $song['tags'], 'ncs' => $song['ncs'], 'artists' => $song['artists'], 'externalLink' => $song['externalLink'], 'new' => $song['new'], 'priorityOrder' => $song['priorityOrder']];
 		} else {
 			$SFX = $library['IDs'][$id];
 			$token = $this->randomString(11);
 			$expires = time() + 3600;
 			$link = $servers[$SFX['server']] != null ? $servers[$SFX['server']].'/sfx/s'.$SFX['ID'].'.ogg?token='.$token.'&expires='.$expires : $this->getSFXInfo($SFX['ID'], 'download');
-			return ['server' => $SFX['server'], 'ID' => $id, 'name' => $song['name'], 'download' => $link];
+			return ['isLocalSFX' => $servers[$SFX['server']] == null, 'server' => $SFX['server'], 'ID' => $id, 'name' => $song['name'], 'download' => $link, 'originalID' => $SFX['ID']];
 		}
 	}
 	public function getLibrarySongAuthorInfo($id) {
@@ -2082,7 +2091,7 @@ class mainLib {
 			$levelField = [$this->webhookLanguage('levelTitle', $webhookLangArray), sprintf($this->webhookLanguage('levelDesc', $webhookLangArray), '**'.$level['levelName'].'**', $creatorFormattedUsername), true];
 			$IDField = [$this->webhookLanguage('levelIDTitle', $webhookLangArray), $level['levelID'], true];
 			if($level['starStars'] == 1) $action = 0; elseif(($level['starStars'] < 5 AND $level['starStars'] != 0) AND !($level['starStars'] > 9 AND $level['starStars'] < 20)) $action = 1; else $action = 2;
-			$difficultyField = [$this->webhookLanguage('difficultyTitle', $webhookLangArray), sprintf($this->webhookLanguage('difficultyDesc'.$action, $webhookLangArray), $difficulty, $level['starStars']), true];
+			$difficultyField = [$this->webhookLanguage('difficultyTitle', $webhookLangArray), sprintf($this->webhookLanguage('difficultyDesc' . ($level['levelLength'] == 5 ? 'Moon' : '') . $action, $webhookLangArray), $difficulty, $level['starStars']), true];
 			$statsField = [$this->webhookLanguage('statsTitle', $webhookLangArray), $stats, true];
 			if($level['requestedStars'] == 1) $action = 0; elseif(($level['requestedStars'] < 5 AND $level['requestedStars'] != 0) AND !($level['requestedStars'] > 9 AND $level['requestedStars'] < 20)) $action = 1; else $action = 2;
 			$requestedField = $level['requestedStars'] > 0 ? [$this->webhookLanguage('requestedTitle', $webhookLangArray), sprintf($this->webhookLanguage('requestedDesc'.$action, $webhookLangArray), $level['requestedStars']), true] : [];
@@ -2651,7 +2660,9 @@ class mainLib {
 		$lTchar = $levelsToday[strlen($levelsToday)-1] ?? $levelsToday;
 		if($lTchar == 1) $action = 0; elseif($lTchar < 5 AND $lTchar != 0 AND !($levelsToday > 9 AND $levelsToday < 20)) $action = 1; else $action = 2;
 		$levelsTodayField = [$this->webhookLanguage('levelsTodayField', $webhookLangArray), sprintf($this->webhookLanguage('logsListChangeRewardCount'.$action, $webhookLangArray), $levelsToday), true];
-		$levelsCompareField = [$this->webhookLanguage('levelsCompareField', $webhookLangArray), sprintf($this->webhookLanguage('levelsCompareValue', $webhookLangArray), (ceil($accountsToday / $accountsYesterday * 10)) / 10), true];
+		if($levelsYesterday != 0) $levelsPercent = ceil($levelsToday / $levelsYesterday * 10) / 10;
+		else $levelsPercent = '∞';
+		$levelsCompareField = [$this->webhookLanguage('levelsCompareField', $webhookLangArray), sprintf($this->webhookLanguage('levelsCompareValue', $webhookLangArray), $levelsPercent), true];
 		$setFooter = sprintf($this->webhookLanguage('footer', $webhookLangArray), $gdps);
 		$dw->newMessage()
 		->setContent($warningsNotificationText)
@@ -2682,7 +2693,9 @@ class mainLib {
 		$lTchar = $accountsToday[strlen($accountsToday)-1] ?? $accountsToday;
 		if($lTchar == 1) $action = 0; elseif($lTchar < 5 AND $lTchar != 0 AND !($accountsToday > 9 AND $accountsToday < 20)) $action = 1; else $action = 2;
 		$accountsTodayField = [$this->webhookLanguage('accountsTodayField', $webhookLangArray), sprintf($this->webhookLanguage('accountsCountValue'.$action, $webhookLangArray), $accountsToday), true];
-		$accountsCompareField = [$this->webhookLanguage('levelsCompareField', $webhookLangArray), sprintf($this->webhookLanguage('levelsCompareValue', $webhookLangArray), (ceil($accountsToday / $accountsYesterday * 10)) / 10), true];
+		if($accountsYesterday != 0) $accountsPercent = ceil($accountsToday / $accountsYesterday * 10) / 10;
+		else $accountsPercent = '∞';
+		$accountsCompareField = [$this->webhookLanguage('levelsCompareField', $webhookLangArray), sprintf($this->webhookLanguage('levelsCompareValue', $webhookLangArray), $accountsPercent), true];
 		$setFooter = sprintf($this->webhookLanguage('footer', $webhookLangArray), $gdps);
 		$dw->newMessage()
 		->setContent($warningsNotificationText)
@@ -2927,7 +2940,7 @@ class mainLib {
 		$gmdFile .= '<k>k47</k><t />';
 		$gmdFile .= '<k>k48</k><i>'.$level['objects'].'</i>';
 		$gmdFile .= '<k>k50</k><i>'.$level['binaryVersion'].'</i>';
-		$gmdFile .= '<k>k87</k><i>'.(1482 * 0 + 3991 * 8354 * (4085 ** 2) - 50028039).'</i>';
+		$gmdFile .= '<k>k87</k><i>556365614873111</i>';
 		$gmdFile .= '<k>k101</k><i>0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0</i>';
 		$gmdFile .= '<k>kl1</k><i>0</i>';
 		$gmdFile .= '<k>kl2</k><i>0</i>';
@@ -3033,17 +3046,25 @@ class mainLib {
 				$string = $this->randomString(4);
 				$query = $db->prepare("UPDATE accounts SET mail = :mail WHERE userName = :user");
 				$query->execute([':mail' => $string, ':user' => $user]);
-				$m->Subject = 'Confirm link';
-				$m->Body = '<h1 align=center>Hello, <b>'.$user.'</b>!</h1><br>
-				<h2 align=center>It seems, that you wanna register new account in <b>'.$gdps.'</b></h2><br>
-				<h2 align=center>Here is your link!</h2><br>
-				<h1 align=center>'.dirname('https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']).'/activate.php?mail='.$string.'</h1>';
+				$m->Subject = 'CPS Activate Account';
+				$m->Body = '<p>Thank you for registering CPS account!</p>
+				<p>Your account information:</p> 
+				<p>Username: <b>'.$user.'</b></p>
+				<p>Please click the link below to activate your account:</p>
+				<p>'.dirname('https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']).'/activate.php?mail='.$string.'</p>
+				<p>Please contact customgamegd0@gmail.com or DM @kacygd in Discord, if you have any questions or need assistance.</p>
+				<p>Regards,</p>
+				<p>KacyGD</p>';
 			} else {
-				$m->Subject = 'Forgot password?';
-				$m->Body = '<h1 align=center>Hello, <b>'.$user.'</b>!</h1><br>
-				<h2 align=center>It seems, that you forgot your password in <b>'.$gdps.'</b>...</h2><br>
-				<h2 align=center>Here is your link!</h2><br>
-				<h1 align=center>https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'?code='.$isForgotPass.'</h1>';
+				$m->Subject = 'Reset CPS Password';
+				$m->Body = '<p>>You have requested a password reset for your CPS account.</p>
+				<p>Your account information:</p> 
+				<p>Username: <b>'.$user.'</b></p>
+				<p>Please click on the link below to reset your password:</p>
+				<p>https://'.$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI'].'?code='.$isForgotPass.'</p>
+				<p>Please contact customgamegd0@gmail.com or DM @kacygd in Discord, if you have any questions or need assistance.</p>
+				<p>Regards,</p>
+				<p>KacyGD</p>';
 			}
 			return $m->send();
 		}
