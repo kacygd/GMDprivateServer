@@ -210,37 +210,6 @@ class dashboardLib {
 								if($lrEnabled == 1) echo '<a type="button" href="levels/levelReupload.php" onclick="a(\'levels/levelReupload.php\')"class="dropdown-item"><i class="fa-solid fa-arrow-down" style="position: absolute;font-size: 10px;margin: 0px 5px 5px -7px;" aria-hidden="false"></i><div class="icon"><i class="fa-solid fa-cloud" aria-hidden="false"></i></div>'.$this->getLocalizedString("levelReupload").'</a>
                                 <a type="button" href="levels/levelToGD.php" onclick="a(\'levels/levelToGD.php\')"class="dropdown-item"><i class="fa-solid fa-arrow-up" style="position: absolute;font-size: 10px;margin: 0px 5px 5px -7px;" aria-hidden="false"></i><div class="icon"><i class="fa-solid fa-cloud" aria-hidden="false"></i></div>'.$this->getLocalizedString("levelToGD").'</a>';
           				echo '<button type="button" class="dropdown-item" id="crbtn" onclick="cron(), event.stopPropagation();"><div class="icon"><i id="iconcron" class="fa-solid fa-bars-progress"></i></div>'.$this->getLocalizedString('tryCron').'</button>
-                        <script>
-								function cron() {
-									cr = new XMLHttpRequest();
-                                    cr.open("GET", "'.$dbPath.'tools/cron/cron.php", true);
-                                    var ic = document.getElementById("iconcron");
-                                    var on = document.getElementById("crbtn");
-                                    ic.classList.remove("fa-bars-progress");
-                                    ic.classList.add("fa-spinner");
-                                    ic.classList.add("fa-spin");
-                                    cr.onload = function (){
-										if(cr.response == "1") {
-                                        	on.innerHTML = \'<div class="icon"><i id="iconcron" class="fa-solid fa-check"></i></div>'.$this->getLocalizedString('cronSuccess').'\';
-                                   			ic.classList.remove("fa-spinner");
-                                   			ic.classList.remove("fa-spin");
-                                            ic.classList.add("fa-bars-progress");
-                                            on.classList.add("dropdown-success");
-                                            on.classList.remove("dropdown-error");
-                                            on.disabled = true;
-										}
-										else {
-                                        	on.innerHTML = \'<div class="icon"><i id="iconcron" class="fa-solid fa-xmark"></i></div>'.$this->getLocalizedString('cronError').'\';
-                                   			ic.classList.remove("fa-spinner");
-                                   			ic.classList.remove("fa-spin");
-                                            ic.classList.add("fa-bars-progress");
-                                            on.classList.remove("dropdown-success");
-                                            on.classList.add("dropdown-error");
-										}
-                                    }
-                                    cr.send();
-                            	}
-</script>
 						</div>
 					</li>';
 			if($gs->checkPermission($_SESSION["accountID"], "dashboardModTools")) {
@@ -308,7 +277,7 @@ class dashboardLib {
 							<a class="dropdown-item dontblock" href="lang/switchLang.php?lang=TR" title="Translated by EMREOYUN"><div class="icon flag"><img class="imgflag" src="incl/flags/tr.png?2"></div>Türkçe</a>
                             <a class="dropdown-item dontblock" href="lang/switchLang.php?lang=UA" title="Translated by Jamichi"><div class="icon flag"><img class="imgflag" src="incl/flags/ua.png?2"></div>Українська</a>
                             <a class="dropdown-item dontblock" href="lang/switchLang.php?lang=FR" title="Translated by masckmaster2007 and M336"><div class="icon flag"><img class="imgflag" src="incl/flags/fr.png?2"></div>Français</a>
-                            <a class="dropdown-item dontblock" href="lang/switchLang.php?lang=ES" title="Translated by Nejik"><div class="icon flag"><img class="imgflag" src="incl/flags/es.png?2"></div>Español</a>
+                            <a class="dropdown-item dontblock" href="lang/switchLang.php?lang=ES" title="Translated by Nejik and Maxi"><div class="icon flag"><img class="imgflag" src="incl/flags/es.png?2"></div>Español</a>
 							<a class="dropdown-item dontblock" href="lang/switchLang.php?lang=PT" title="Translated by OmgRod"><div class="icon flag"><img class="imgflag" src="incl/flags/pt.png?2"></div>Português</a>
 							<a class="dropdown-item dontblock" href="lang/switchLang.php?lang=CZ" title="Translated by Matto58"><div class="icon flag"><img class="imgflag" src="incl/flags/cz.png?2"></div>Čeština</a>
 							<a class="dropdown-item dontblock" href="lang/switchLang.php?lang=IT" title="Translated by Fenix668"><div class="icon flag"><img class="imgflag" src="incl/flags/it.png?2"></div>Italiano</a>
@@ -390,30 +359,13 @@ class dashboardLib {
 											<input type="password" class="form-control login-input" id="passwordField" name="password" placeholder="'.$this->getLocalizedString("password").'">
 										</div>
 										'.(!$preactivateAccounts ? ($mailEnabled ? '<button type="button" onclick="a(\'login/forgotPassword.php\')" class="forgotPassword">'.$this->getLocalizedString("forgotPasswordTitle").'</button>' : '<button type="button" onclick="a(\'login/activate.php\')" class="forgotPassword">'.$this->getLocalizedString("activateAccount").'</button>') : '').'
-										<div style="display: flex;flex-wrap: wrap;justify-content: center"><button type="submit" class="btn-primary btn-block" id="submit" disabled>'.$this->getLocalizedString("login").'</button>
+										<div style="display: flex;flex-wrap: wrap;justify-content: center"><button type="submit" class="btn-primary" id="submit">'.$this->getLocalizedString("login").'</button>
 										</form>
 										<form action="login/register.php" style="width: 80%;margin-top: 10px;margin-bottom: -5px">
 											<button type="button" onclick="a(\'login/register.php\')" class="btn btn-primary">'.$this->getLocalizedString("register").'</button>
 										</div>
 									</form>
-						</div><script>
-							$(document).on("keyup keypress change keydown", function() {
-								const usernameField1 = document.getElementById("usernameField");
-								const passwordField2 = document.getElementById("passwordField");
-								const loginBtn = document.getElementById("submit");
-								if(loginBtn == null) return;
-								if((usernameField1 !== null && passwordField2 !== null) && (!usernameField1.value.trim().length || !passwordField2.value.trim().length)) {
-									loginBtn.disabled = true;
-									loginBtn.classList.add("btn-block");
-									loginBtn.classList.remove("btn-primary");
-								} else {
-									loginBtn.removeAttribute("disabled");
-									loginBtn.classList.remove("btn-block");
-									loginBtn.classList.remove("btn-size");
-									loginBtn.classList.add("btn-primary");
-								}
-							});
-							</script>';
+						</div>';
 		}	
 		echo '</ul>
 			</div>
@@ -834,7 +786,20 @@ class dashboardLib {
 						if(document.getElementById("pagescript") !== null) document.getElementById("pagescript").remove();
 						document.body.appendChild(scrp);
 						isSubdirectory = document.getElementById("isSubdirectory").value == "true" ? true : false;
-						if(!isback) history.pushState(null, null, page + sendget);
+						if(!isback) {
+							if(page == "") {
+								var basePath = "../";
+								
+								if(page.endsWith("settings")) basePath = "../../../";
+								else if(isSubdirectory) basePath = "../../";
+								
+								const baseURL = new URL(basePath, window.location.href);
+								
+								page = baseURL.pathname;
+							}
+							
+							history.pushState(null, null, page + sendget);
+						}
 						if(typeof document.querySelector("base") != "object") {
 							base = document.createElement("base");
 							if(page.endsWith("settings")) base.href = "../../";
@@ -1044,6 +1009,31 @@ class dashboardLib {
 			setTimeout(function () {toast.remove()}, 300);
 		}, 3000);
 	}
+	function cron() {
+		var iconCron = document.getElementById("iconcron");
+		var cronButton = document.getElementById("crbtn");
+		iconCron.classList.remove("fa-bars-progress");
+		iconCron.classList.add("fa-spinner");
+		iconCron.classList.add("fa-spin");
+		fetch("api/runCron.php").then(r => r.json()).then(response => {
+			if(response.success) {
+				cronButton.innerHTML = \'<div class="icon"><i id="iconcron" class="fa-solid fa-check"></i></div>'.$this->getLocalizedString('cronSuccess').'\';
+				iconCron.classList.remove("fa-spinner");
+				iconCron.classList.remove("fa-spin");
+				iconCron.classList.add("fa-bars-progress");
+				cronButton.classList.add("dropdown-success");
+				cronButton.classList.remove("dropdown-error");
+				cronButton.disabled = true;
+			} else {
+				cronButton.innerHTML = \'<div class="icon"><i id="iconcron" class="fa-solid fa-xmark"></i></div>'.$this->getLocalizedString('cronError').'\';
+				iconCron.classList.remove("fa-spinner");
+				iconCron.classList.remove("fa-spin");
+				iconCron.classList.add("fa-bars-progress");
+				cronButton.classList.remove("dropdown-success");
+				cronButton.classList.add("dropdown-error");
+			}
+		});
+	}
 	window.addEventListener("popstate", function(e) { 
 		a(e.target.location.href, true, true, "GET", false, "", true);
 	}, false);
@@ -1103,6 +1093,7 @@ class dashboardLib {
 	}
 	public function generateLevelsCard($action, $modcheck = false, $extraDetails = '') {
 		global $dbPath;
+		global $iconsRendererServer;
 		require __DIR__."/../".$dbPath."incl/lib/connection.php";
 		require_once __DIR__."/../".$dbPath."incl/lib/mainLib.php";
 		$gs = new mainLib();
@@ -1176,7 +1167,7 @@ class dashboardLib {
 			$iconType = ($userData['iconType'] > 8) ? 0 : $userData['iconType'];
 			$iconTypeMap = [0 => ['type' => 'cube', 'value' => $userData['accIcon']], 1 => ['type' => 'ship', 'value' => $userData['accShip']], 2 => ['type' => 'ball', 'value' => $userData['accBall']], 3 => ['type' => 'ufo', 'value' => $userData['accBird']], 4 => ['type' => 'wave', 'value' => $userData['accDart']], 5 => ['type' => 'robot', 'value' => $userData['accRobot']], 6 => ['type' => 'spider', 'value' => $userData['accSpider']], 7 => ['type' => 'swing', 'value' => $userData['accSwing']], 8 => ['type' => 'jetpack', 'value' => $userData['accJetpack']]];
 			$iconValue = (isset($iconTypeMap[$iconType]) && $iconTypeMap[$iconType]['value'] > 0) ? $iconTypeMap[$iconType]['value'] : 1;
-			$avatarImg = '<img src="https://gdicon.oat.zone/icon.png?type=' . $iconTypeMap[$iconType]['type'] . '&value=' . $iconValue . '&color1=' . $userData['color1'] . '&color2=' . $userData['color2'] . ($userData['accGlow'] != 0 ? '&glow=' . $userData['accGlow'] . '&color3=' . $userData['color3'] : '') . '" alt="Avatar" style="width: 30px; height: 30px; vertical-align: middle; object-fit: contain;">';
+			$avatarImg = '<img src="'.$iconsRendererServer.'/icon.png?type=' . $iconTypeMap[$iconType]['type'] . '&value=' . $iconValue . '&color1=' . $userData['color1'] . '&color2=' . $userData['color2'] . ($userData['accGlow'] != 0 ? '&glow=' . $userData['accGlow'] . '&color3=' . $userData['color3'] : '') . '" alt="Avatar" style="width: 30px; height: 30px; vertical-align: middle; object-fit: contain;">';
 		}
 		$manage = '<a class="btn-rendel btn-manage" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<i class="fa-solid fa-ellipsis-vertical"></i>
@@ -1221,6 +1212,7 @@ class dashboardLib {
 	}
 	public function generateCommentsCard($comment, $commentDeleteCheck = false) {
 		global $dbPath;
+		global $iconsRendererServer;
 		require __DIR__."/../".$dbPath."incl/lib/connection.php";
 		require_once __DIR__."/../".$dbPath."incl/lib/mainLib.php";
 		$gs = new mainLib();
@@ -1247,7 +1239,7 @@ class dashboardLib {
 			$iconType = ($userData['iconType'] > 8) ? 0 : $userData['iconType'];
 			$iconTypeMap = [0 => ['type' => 'cube', 'value' => $userData['accIcon']], 1 => ['type' => 'ship', 'value' => $userData['accShip']], 2 => ['type' => 'ball', 'value' => $userData['accBall']], 3 => ['type' => 'ufo', 'value' => $userData['accBird']], 4 => ['type' => 'wave', 'value' => $userData['accDart']], 5 => ['type' => 'robot', 'value' => $userData['accRobot']], 6 => ['type' => 'spider', 'value' => $userData['accSpider']], 7 => ['type' => 'swing', 'value' => $userData['accSwing']], 8 => ['type' => 'jetpack', 'value' => $userData['accJetpack']]];
 			$iconValue = isset($iconTypeMap[$iconType]) ? $iconTypeMap[$iconType]['value'] : 1;	    
-			$avatarImg = '<img src="https://gdicon.oat.zone/icon.png?type=' . $iconTypeMap[$iconType]['type'] . '&value=' . $iconValue . '&color1=' . $userData['color1'] . '&color2=' . $userData['color2'] . ($userData['accGlow'] != 0 ? '&glow=' . $userData['accGlow'] . '&color3=' . $userData['color3'] : '') . '" alt="Avatar" style="width: 30px; height: 30px; vertical-align: middle; object-fit: contain;">';
+			$avatarImg = '<img src="'.$iconsRendererServer.'/icon.png?type=' . $iconTypeMap[$iconType]['type'] . '&value=' . $iconValue . '&color1=' . $userData['color1'] . '&color2=' . $userData['color2'] . ($userData['accGlow'] != 0 ? '&glow=' . $userData['accGlow'] . '&color3=' . $userData['color3'] : '') . '" alt="Avatar" style="width: 30px; height: 30px; vertical-align: middle; object-fit: contain;">';
 		}
 		// Badge management
 		$badgeImg = '';
@@ -1278,6 +1270,7 @@ class dashboardLib {
 	}
 	public function generateLeaderboardsCard($x, $leaderboard, $action, $leaderboardDeleteCheck = false, $stats = '') {
 		global $dbPath;
+		global $iconsRendererServer;
 		require __DIR__."/../".$dbPath."incl/lib/connection.php";
 		require_once __DIR__."/../".$dbPath."incl/lib/mainLib.php";
 		$gs = new mainLib();
@@ -1311,7 +1304,7 @@ class dashboardLib {
 			$iconType = ($userData['iconType'] > 8) ? 0 : $userData['iconType'];
 			$iconTypeMap = [0 => ['type' => 'cube', 'value' => $userData['accIcon']], 1 => ['type' => 'ship', 'value' => $userData['accShip']], 2 => ['type' => 'ball', 'value' => $userData['accBall']], 3 => ['type' => 'ufo', 'value' => $userData['accBird']], 4 => ['type' => 'wave', 'value' => $userData['accDart']], 5 => ['type' => 'robot', 'value' => $userData['accRobot']], 6 => ['type' => 'spider', 'value' => $userData['accSpider']], 7 => ['type' => 'swing', 'value' => $userData['accSwing']], 8 => ['type' => 'jetpack', 'value' => $userData['accJetpack']]];
 			$iconValue = isset($iconTypeMap[$iconType]) ? $iconTypeMap[$iconType]['value'] : 1;	    
-			$avatarImg = '<img src="https://gdicon.oat.zone/icon.png?type=' . $iconTypeMap[$iconType]['type'] . '&value=' . $iconValue . '&color1=' . $userData['color1'] . '&color2=' . $userData['color2'] . ($userData['accGlow'] != 0 ? '&glow=' . $userData['accGlow'] . '&color3=' . $userData['color3'] : '') . '" alt="Avatar" style="width: 30px; height: 30px; vertical-align: middle; object-fit: contain;">';
+			$avatarImg = '<img src="'.$iconsRendererServer.'/icon.png?type=' . $iconTypeMap[$iconType]['type'] . '&value=' . $iconValue . '&color1=' . $userData['color1'] . '&color2=' . $userData['color2'] . ($userData['accGlow'] != 0 ? '&glow=' . $userData['accGlow'] . '&color3=' . $userData['color3'] : '') . '" alt="Avatar" style="width: 30px; height: 30px; vertical-align: middle; object-fit: contain;">';
 		}
 		return '<div style="width: 100%;display: flex;flex-wrap: wrap;justify-content: center;">
 				<div class="profile"><div style="display: flex;width: 100%;justify-content: space-between;margin-bottom: 7px;align-items: center;">
@@ -1400,8 +1393,8 @@ class dashboardLib {
 					<div class="field"><input type="text" name="name" id="p2" value="'.$name.'" placeholder="'.$name.'"></div>
 					<button type="button" class="btn-song" id="submit" onclick="renameSong('.$songsid.')">'.$this->getLocalizedString("change").'</button>
 					'.($modCheck ? 
-						($isDisabled ? '<button id="songDisableButton'.$song['ID'].'" style="width: 85%" type="button" class="btn-song" onclick="disableSong('.$sfxsid.', true)">'.$this->getLocalizedString("enable").'</button>'
-						: '<button id="songDisableButton'.$song['ID'].'" style="width: 85%" type="button" class="btn-song" onclick="disableSong('.$sfxsid.', true)">'.$this->getLocalizedString("disable").'</button>')
+						($isDisabled ? '<button id="songDisableButton'.$song['ID'].'" style="width: 85%" type="button" class="btn-song" onclick="disableSong('.$songsid.', false)">'.$this->getLocalizedString("enable").'</button>'
+						: '<button id="songDisableButton'.$song['ID'].'" style="width: 85%" type="button" class="btn-song" onclick="disableSong('.$songsid.', false)">'.$this->getLocalizedString("disable").'</button>')
 					: '').'
 					<button style="width: 70%" type="button" class="btn-song btn-size" onclick="deleteSong('.$songsid.')">'.$this->getLocalizedString("delete").'</button>
 				</form>

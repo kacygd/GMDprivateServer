@@ -1,10 +1,14 @@
 <?php
 session_start();
 require "../incl/dashboardLib.php";
-require "../".$dbPath."incl/lib/exploitPatch.php";
+require "../".$dbPath."incl/lib/connection.php";
+require "../".$dbPath."config/dashboard.php";
+require "../".$dbPath."config/misc.php";
+require_once "../".$dbPath."incl/lib/exploitPatch.php";
 require_once "../".$dbPath."incl/lib/mainLib.php";
 require_once "../".$dbPath."incl/lib/automod.php";
-require_once "../".$dbPath."config/misc.php";
+$gs = new mainLib();
+$dl = new dashboardLib();
 
 function generate_timezone_list()
 {
@@ -50,9 +54,6 @@ function generate_timezone_list()
     return $timezone_list;
 }
 
-$gs = new mainLib();
-require "../".$dbPath."incl/lib/connection.php";
-$dl = new dashboardLib();
 $clan = $none = "";
 if((!isset($_SESSION["accountID"]) OR $_SESSION["accountID"] == 0) AND (empty($_POST["accountID"]) AND empty($_GET["id"]))) {
   	$dl->title($dl->getLocalizedString("profile"));
@@ -117,7 +118,7 @@ if($accid != $_SESSION["accountID"] && is_numeric($accid)) {
   		</form>
 	</div>'));
 }
-if(!empty($_POST["msg"])) {
+if($accid == $_SESSION["accountID"] && $accid != 0 && !empty($_POST["msg"])) {
 	if(Automod::isAccountsDisabled(1)) die($dl->printSong('<div class="form">
 	<h1>'.$dl->getLocalizedString("errorGeneric").'</h1>
        	<form class="form__inner" method="post" action="">
@@ -286,23 +287,8 @@ if($accid == $_SESSION["accountID"]) {
 	if(empty($comments)) $comments = '<p class="profile" style="font-size:25px;color:#c0c0c0">'.$dl->getLocalizedString("writeSomething").'</p>';
 	$send = '<div class="field" style="margin-top:10px">
 		<form method="post" action=""><input type="text" name="msg" id="p1" placeholder="'.$dl->getLocalizedString("msg").'"></input>
-		<button type="button" onclick="a(\'profile/'.$accname.'\', true, true, \'POST\')" style="margin-top: 10px;" class="btn-primary btn-block" id="submit" disabled>'.$dl->getLocalizedString("send").'</button></form>
-	</div><script>
-	$(document).on("keyup keypress change keydown",function(){
-	   const p1 = document.getElementById("p1");
-	   const btn = document.getElementById("submit");
-	   if(!p1.value.trim().length) {
-			btn.disabled = true;
-			btn.classList.add("btn-block");
-			btn.classList.remove("btn-primary");
-		} else {
-			btn.removeAttribute("disabled");
-			btn.classList.remove("btn-block");
-			btn.classList.remove("btn-size");
-			btn.classList.add("btn-primary");
-		}
-	});
-	</script>';
+		<button type="button" onclick="a(\'profile/'.$accname.'\', true, true, \'POST\')" style="margin-top: 10px;" class="btn-primary" id="submit">'.$dl->getLocalizedString("send").'</button></form>
+	</div>';
 	$msgtopl = '<form method="post" name="settingsform"><input type="hidden" name="settings" value="1"><button type="button" onclick="a(\'profile/'.$accname.'/settings\', true, true, \'POST\', false, \'settingsform\')" title="'.$dl->getLocalizedString("settings").'" class="msgupd" name="settings" value="1"><i class="fa-solid fa-user-gear" aria-hidden="true"></i></button></form>';
 } else {
 	$privacySettings = $db->prepare("SELECT mS FROM accounts WHERE accountID = :receiver");
@@ -321,23 +307,23 @@ if($gs->isPlayerInClan($accid)) {
 	$clan = '<button type="button" onclick="a(\'clan/'.$claninfo["clan"].'\', true, true)" style="display:contents;cursor:pointer"><h2 class="music" style="grid-gap:5px;color:#'.$claninfo["color"].'">'.$claninfo["clan"].$own.'</h2></button>';
 }
 $kit = '<div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=cube&value='.($res['accIcon'] ? $res['accIcon'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-cube" style="opacity: 0;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=cube&value='.($res['accIcon'] ? $res['accIcon'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-cube" style="opacity: 0;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=ship&value='.($res['accShip'] ? $res['accShip'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-ship" style="opacity: 0; animation-delay: 100ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=ship&value='.($res['accShip'] ? $res['accShip'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-ship" style="opacity: 0; animation-delay: 100ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=ball&value='.($res['accBall'] ? $res['accBall'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-ball" style="opacity: 0; animation-delay: 150ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=ball&value='.($res['accBall'] ? $res['accBall'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-ball" style="opacity: 0; animation-delay: 150ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=ufo&value='.($res['accBird'] ? $res['accBird'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-ufo" style="opacity: 0; animation-delay: 200ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=ufo&value='.($res['accBird'] ? $res['accBird'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-ufo" style="opacity: 0; animation-delay: 200ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=wave&value='.($res['accDart'] ? $res['accDart'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-wave" style="opacity: 0; animation-delay: 250ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=wave&value='.($res['accDart'] ? $res['accDart'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-wave" style="opacity: 0; animation-delay: 250ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=robot&value='.($res['accRobot'] ? $res['accRobot'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-robot" style="opacity: 0; animation-delay: 300ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=robot&value='.($res['accRobot'] ? $res['accRobot'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-robot" style="opacity: 0; animation-delay: 300ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=spider&value='.($res['accSpider'] ? $res['accSpider'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-spider" style="opacity: 0; animation-delay: 350ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=spider&value='.($res['accSpider'] ? $res['accSpider'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-spider" style="opacity: 0; animation-delay: 350ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=swing&value='.($res['accSwing'] ? $res['accSwing'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-swing" style="opacity: 0; animation-delay: 400ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=swing&value='.($res['accSwing'] ? $res['accSwing'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-swing" style="opacity: 0; animation-delay: 400ms;">
 </div><div class="icon-kit-div">
-	<img src="https://gdicon.oat.zone/icon.png?type=jetpack&value='.($res['accJetpack'] ? $res['accJetpack'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-jetpack" style="opacity: 0; animation-delay: 450ms;">
+	<img src="'.$iconsRendererServer.'/icon.png?type=jetpack&value='.($res['accJetpack'] ? $res['accJetpack'] : 1).'&color1='.$res['color1'].'&color2='.$res['color2'].($res['accGlow'] && $res['accGlow'] != 0 ? '&glow='.$res['accGlow'].'&color3='.$res['color3'] : '').'" class="icon-kit-icon icon-jetpack" style="opacity: 0; animation-delay: 450ms;">
 </div>';
 
 $dl->printSong('<div class="form profileform">

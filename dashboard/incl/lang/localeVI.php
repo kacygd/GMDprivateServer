@@ -3,7 +3,7 @@ global $dbPath;
 require __DIR__."/../../".$dbPath."config/dashboard.php";
 
 $string["homeNavbar"] = "Trang Chủ";
-$string["welcome"] = "Chào mừng đến với ".$gdps.'!';
+$string["welcome"] = "Chào mừng bạn đến với ".$gdps.'!';
 $string["footer"] = $gdps.", ".date('Y', time());
 $string["tipsAfterInstalling"] = "Chào mừng bạn đến với Bảng Điều Khiển! Chúng tôi cung cấp cho bạn một số gợi ý sau khi cài đặt:<br>
 1. Có vẻ như các quyền mới đã xuất hiện trong SQL trong bảng 'roles'! Bạn nên kiểm tra nó...<br>
@@ -13,14 +13,14 @@ $string["wwygdt"] = "Hôm nay bạn định làm gì?";
 $string["game"] = "Trò chơi";
 $string["guest"] = "Khách";
 $string["account"] = "Tài khoản";
-$string["levelsOptDesc"] = "Xem danh sách level";
-$string["songsOptDesc"] = "Xem danh sách bài hát";
+$string["levelsOptDesc"] = "Xem danh sách các level";
+$string["songsOptDesc"] = "Xem danh sách nhạc";
 $string["yourClanOptDesc"] = "Xem clan \"%s\"";
-$string["clanOptDesc"] = "Xem danh sách clan";
+$string["clanOptDesc"] = "Xem danh sách các clan";
 $string["yourProfile"] = "Xem hồ sơ";
 $string["profileOptDesc"] = "Xem hồ sơ của bạn";
 $string["messengerOptDesc"] ="Mở tin nhắn";
-$string["addSongOptDesc"] = "Thêm bài hát vào máy chủ";
+$string["addSongOptDesc"] = "Thêm nhạc vào máy chủ";
 $string["loginOptDesc"] = "Đăng nhập vào tài khoản";
 $string["createAcc"] = "Tạo tài khoản";
 $string["registerOptDesc"] = "Đăng ký trên %s";
@@ -32,7 +32,7 @@ $string["cronError"] = "Lỗi!";
 
 $string["profile"] = "Hồ sơ";
 $string["empty"] = "Trống...";
-$string["writeSomething"] = "Viết cái gì đó!";
+$string["writeSomething"] = "Hãy viết thứ gì đó!";
 $string["replies"] = "Trả lời";
 $string["replyToComment"] = "Trả lời một bình luận";
 $string["settings"] = "Cài đặt";
@@ -47,14 +47,14 @@ $string["yourTwitch"] = "Kênh Twitch của bạn";
 $string["saveSettings"] = "Lưu cài đặt";
 $string["all"] = "Tất cả";
 $string["friends"] = "Bạn bè";
-$string["none"] = "Không";
+$string["none"] = "Không có gì";
 $string["youBlocked"] = "Người chơi này đã chặn bạn!";
 $string["cantMessage"] = "Bạn không thể nhắn tin cho người chơi này!";
  
 $string["accountManagement"] = "Quản lý tài khoản";
 $string["changePassword"] = "Đổi mật khẩu";
 $string["changeUsername"] = "Đổi tên người dùng";
-$string["unlistedLevels"] = "Các level bị ẩn của bạn";
+$string["unlistedLevels"] = "Các level không công khai của bạn";
 
 $string["manageSongs"] = "Quản lý nhạc";
 $string["gauntletManage"] = "Quản lý Gauntlets";
@@ -62,7 +62,7 @@ $string["suggestLevels"] = "Level được đề xuất";
 
 $string["modTools"] = "Công cụ mod";
 $string["leaderboardBan"] = "Cấm người dùng";
-$string["unlistedMod"] = "Các level bị ẩn";
+$string["unlistedMod"] = "Các level không công khai";
 
 $string["reuploadSection"] = "Reupload";
 $string["songAdd"] = "Thêm nhạc";
@@ -71,8 +71,8 @@ $string["packManage"] = "Quản lý Map Pack";
 
 $string["browse"] = "Duyệt";
 $string["statsSection"] = "Thống kê";
-$string["dailyTable"] = "Level hàng ngày";
-$string["modActionsList"] = "Hành động mod";
+$string["dailyTable"] = "Các level hàng ngày";
+$string["modActionsList"] = "Các hành động của mod";
 $string["modActions"] = "Người điều hành máy chủ";
 $string["gauntletTable"] = "Danh sách Gauntlets";
 $string["packTable"] = "Danh sách các Map Pack";
@@ -95,7 +95,7 @@ $string["wrongNickOrPass"] = "Sai tên người dùng hoặc mật khẩu!";
 $string["invalidid"] = "ID không hợp lệ!";
 $string["loginBox"] = "Đăng nhập vào tài khoản";
 $string["loginSuccess"] = "Bạn đăng nhập thành công vào tài khoản của mình!";
-$string["loginAlready"] = "Bạn đã đăng nhập!";
+$string["loginAlready"] = "Bạn đã đăng nhập rồi!";
 $string["clickHere"] = "Bảng điều khiển";
 $string["enterUsername"] = "Nhập tên người dùng";
 $string["enterPassword"] = "Nhập mật khẩu";
@@ -119,7 +119,7 @@ $string["badUsername"] = "Vui lòng chọn tên người dùng khác.";
 $string["changePassTitle"] = "Đổi mật khẩu";
 $string["changedPass"] = "Mật khẩu đã được đổi thành công! Bạn cần đăng nhập lại vào tài khoản của mình.";
 $string["wrongPass"] = "Sai mật khẩu!";
-$string["samePass"] = "Mật khẩu bạn nhập giống nhau!";
+$string["samePass"] = "Mật khẩu bạn nhập vào giống nhau!";
 $string["changePassDesc"] = "Tại đây bạn có thể thay đổi mật khẩu của mình!";
 $string["oldPassword"] = "Mật khẩu cũ";
 $string["newPassword"] = "Mật khẩu mới";
@@ -136,7 +136,7 @@ $string["changePassOrNick"] = "Đổi tên người dùng hoặc mật khẩu c�
 $string["changeNickTitle"] = "Đổi tên người dùng";
 $string["changedNick"] = "Tên người dùng đã được thay đổi thành công! Bạn cần đăng nhập lại vào tài khoản của mình.";
 $string["wrongNick"] = "Sai tên người dùng!";
-$string["sameNick"] = "Tên người dùng bạn đã nhập giống nhau!";
+$string["sameNick"] = "Tên người dùng bạn nhập vào giống nhau!";
 $string["alreadyUsedNick"] = "Tên người dùng bạn nhập đã được sử dụng!";
 $string["changeNickDesc"] = "Tại đây bạn có thể đổi tên người dùng của mình!";
 $string["oldNick"] = "Tên người dùng cũ";
@@ -147,11 +147,11 @@ $string["packCreate"] = "Tạo Map Pack";
 $string["packCreateTitle"] = "Tạo Map Pack";
 $string["packCreateDesc"] = "Tại đây bạn có thể tạo Map Pack!";
 $string["packCreateSuccess"] = "Bạn đã tạo thành công Map Pack có tên";
-$string["packCreateOneMore"] = "Thêm một Map Pack nữa?";
+$string["packCreateOneMore"] = "Muốn tạo thêm một Map Pack nữa?";
 $string["packName"] = "Tên Map Pack";
 $string["color"] = "Màu";
-$string["sameLevels"] = "Bạn đã chọn cấp độ giống nhau!";
-$string["show"] = "Hiển";
+$string["sameLevels"] = "Bạn đã chọn level giống nhau!";
+$string["show"] = "Hiển thị";
 $string["packChange"] = "Thay đổi Map Pack";
 $string["createNewPack"] = "Tạo Map Pack mới!";
 
@@ -159,8 +159,8 @@ $string["gauntletCreate"] = "Tạo Gauntlets";
 $string["gauntletCreateTitle"] = "Tạo Gauntlets";
 $string["gauntletCreateDesc"] = "Tại đây bạn có thể tạo Gauntlets!";
 $string["gauntletCreateSuccess"] = "Bạn đã tạo Gauntlet thành công!";
-$string["gauntletCreateOneMore"] = "Thêm một Gauntlet nữa?";
-$string["chooseLevels"] = "Chọn cấp độ!";
+$string["gauntletCreateOneMore"] = "Muốn tạo thêm một Gauntlet nữa?";
+$string["chooseLevels"] = "Chọn level!";
 $string["checkbox"] = "Xác nhận";
 $string["level1"] = "Level 1";
 $string["level2"] = "Level 2";
@@ -181,7 +181,7 @@ $string["questCreate"] = "Tạo nhiệm vụ";
 $string["questsSuccess"] = "Bạn đã tạo nhiệm vụ thành công";
 $string["invalidPost"] = "Dữ liệu không hợp lệ!";
 $string["fewMoreQuests"] = "Nên tạo thêm một vài nhiệm vụ nữa.";
-$string["oneMoreQuest?"] = "Thêm một nhiệm vụ nữa?";
+$string["oneMoreQuest?"] = "Muốn tạo thêm một nhiệm vụ nữa?";
 $string["changeQuest"] = "Thay đổi nhiệm vụ";
 $string["createNewQuest"] = "Tạo nhiệm vụ mới!";
 
@@ -189,11 +189,11 @@ $string["levelReupload"] = "Tải lên lại level";
 $string["levelReuploadDesc"] = "Tại đây bạn có thể tải lên lại level từ bất kỳ máy chủ nào!";
 $string["advanced"] = "Tùy chọn nâng cao";
 $string["errorConnection"] = "Lỗi kết nối!";
-$string["levelNotFound"] = "Cấp độ này không tồn tại!";
+$string["levelNotFound"] = "level này không tồn tại!";
 $string["robtopLol"] = "RobTop không thích bạn :c";
 $string["sameServers"] = "Máy chủ chính và máy chủ đích giống nhau!";
-$string["levelReuploaded"] = "Đã tải lại level! ID cấp độ:";
-$string["oneMoreLevel?"] = "Thêm một level nữa?";
+$string["levelReuploaded"] = "Đã tải lại level! ID level:";
+$string["oneMoreLevel?"] = "Muốn đăng lại một level nữa?";
 $string["levelAlreadyReuploaded"] = "Level đã được tải lên lại!";
 $string["server"] = "Máy chủ";
 $string["levelID"] = "ID Level";
@@ -202,7 +202,7 @@ $string["pageDisabled"] = "Trang này bị vô hiệu hóa!";
 $string["activateAccount"] = "Kích hoạt tài khoản";
 $string["activateDesc"] = "Kích hoạt tài khoản của bạn!";
 $string["activated"] = "Tài khoản của bạn đã được kích hoạt thành công!";
-$string["alreadyActivated"] = "Tài khoản của bạn đã được kích hoạt";
+$string["alreadyActivated"] = "Tài khoản của bạn đã được kích hoạt rồi";
 $string["maybeActivate"] = "Có thể bạn chưa kích hoạt tài khoản của mình.";
 $string["activate"] = "Kích hoạt";
 $string["activateDisabled"] = "Kích hoạt tài khoản bị vô hiệu hóa!";
@@ -210,17 +210,17 @@ $string["activateDisabled"] = "Kích hoạt tài khoản bị vô hiệu hóa!";
 $string["addMod"] = "Thêm người điều hành";
 $string["addModDesc"] = "Tại đây bạn có thể cấp quyền cho người điều hành!";
 $string["modYourself"] = "Bạn không thể cấp cho mình người điều hành!";
-$string["alreadyMod"] = "Người chơi này đã là người kiểm duyệt!";
+$string["alreadyMod"] = "Người chơi này đã là người điều hành!";
 $string["addedMod"] = "Bạn đã cấp thành công người điều hành cho người chơi";
 $string["addModOneMore"] = "Thêm một người điều hành nữa?";
 $string["modAboveYourRole"] = "Bạn đang cố gắng giao một vai trò cao hơn vai trò của mình!";
-$string["makeNewMod"] = "Chỉ định ai đó làm người kiểm duyệt!";
+$string["makeNewMod"] = "Chỉ định ai đó làm người điều hành!";
 $string["reassignMod"] = "Chỉ định lại người điều hành";
 $string["reassign"] = "Phân công lại";
-$string['demotePlayer'] = "Hạ cấp người chơi";
-$string['demotedPlayer'] = "Bạn đã hạ cấp thành công người chơi <b>%s</b>!";
-$string['addedModNew'] = "Bạn đã cấp thành công người điều hành cho người chơi <b>%s</b>!";
-$string['demoted'] = 'Bị giáng chức';
+$string['demotePlayer'] = "Hạ chức người chơi";
+$string['demotedPlayer'] = "Bạn đã hạ chức thành công người chơi <b>%s</b>!";
+$string['addedModNew'] = "Bạn đã chức thành công người điều hành cho người chơi <b>%s</b>!";
+$string['demoted'] = 'Đã bị hạ chức';
 
 $string["shareCPTitle"] = "Chia sẻ điểm của người sáng tạo";
 $string["shareCPDesc"] = "Tại đây bạn có thể chia sẻ Điểm sáng tạo với người chơi!";
@@ -229,7 +229,7 @@ $string["alreadyShared"] = "Level này đã chia sẻ CP cho người chơi này
 $string["shareToAuthor"] = "Bạn đã cố chia sẻ CP với tác giả level!";
 $string["userIsBanned"] = "Người chơi này bị cấm!";
 $string["shareCPOneMore"] = "Thêm một lần chia sẻ?";
-$string['shareCPSuccessNew'] = 'Bạn đã chia sẻ thành công Điểm người sáng tạo ở cấp độ <b>%1$s</b> tới người chơi <b>%2$s</b>!';
+$string['shareCPSuccessNew'] = 'Bạn đã chia sẻ thành công Điểm người sáng tạo ở level <b>%1$s</b> tới người chơi <b>%2$s</b>!';
 
 $string["messenger"] = "Tin Nhắn";
 $string["write"] = "Viết";
@@ -242,9 +242,9 @@ $string["messengerYou"] = "Bạn:";
 $string["chooseChat"] = "Chọn chat";
 
 $string["levelToGD"] = "Tải lại level lên máy chủ đích";
-$string["levelToGDDesc"] = "Tại đây bạn có thể tải lại level của mình lên máy chủ mục tiêu!";
-$string["usernameTarget"] = "Tên người dùng cho máy chủ mục tiêu";
-$string["passwordTarget"] = "Mật khẩu cho máy chủ mục tiêu";
+$string["levelToGDDesc"] = "Tại đây bạn có thể tải lại level của mình lên máy chủ đích!";
+$string["usernameTarget"] = "Tên người dùng cho máy chủ đích";
+$string["passwordTarget"] = "Mật khẩu cho máy chủ đích";
 $string["notYourLevel"] = "Đây không phải là level của bạn!";
 $string["reuploadFailed"] = "Lỗi tải lên lại level!";
 
@@ -262,9 +262,9 @@ $string["demonlistLevel"] = '%s <text class="dltext">bởi <button type="button"
 $string["didntActivatedEmail"] = 'Bạn chưa kích hoạt tài khoản của mình qua email!';
 $string["checkMail"] = 'Bạn nên kiểm tra email của mình...';
 
-$string["likeSong"] = "Thêm bài hát vào mục yêu thích";
-$string["dislikeSong"] = "Xóa bài hát khỏi mục yêu thích";
-$string["favouriteSongs"] = "Bài hát yêu thích";
+$string["likeSong"] = "Thêm nhạc vào mục yêu thích";
+$string["dislikeSong"] = "Xóa nhạc khỏi mục yêu thích";
+$string["favouriteSongs"] = "Nhạc yêu thích";
 $string["howMuchLiked"] = "Bao nhiêu lượt thích?";
 $string["nooneLiked"] = "Không ai thích";
 
@@ -272,7 +272,7 @@ $string["clan"] = "Clan";
 $string["joinedAt"] = "Đã gia nhập clan: <b>%s</b>";
 $string["createdAt"] = "Đã tạo clan: <b>%s</b>";
 $string["clanMembers"] = "Thành viên clan";
-$string["noMembers"] = "Không có thành viên";
+$string["noMembers"] = "Không có thành viên nào";
 $string["clanOwner"] = "Chủ clan";
 $string["noClanDesc"] = "<i>Không có mô tả</i>";
 $string["noClan"] = "Clan này không tồn tại!";
@@ -280,12 +280,12 @@ $string["clanName"] = "Tên clan";
 $string["clanTag"] = "Thẻ clan (3-5 ký tự)";
 $string["clanDesc"] = "Mô tả clan";
 $string["clanColor"] = "Màu clan";
-$string["dangerZone"] = "khu vực nguy hiểm";
+$string["dangerZone"] = "Khu vực nguy hiểm";
 $string["giveClan"] = "Chuyển clan";
 $string["deleteClan"] = "Xóa clan";
 $string["goBack"] = "Quay lại";
-$string["areYouSure"] = "Bạn có chắc không?";
-$string["giveClanDesc"] = "Tại đây bạn có thể trao clan của mình cho người chơi.";
+$string["areYouSure"] = "Bạn có chắc chức?";
+$string["giveClanDesc"] = "Tại đây bạn có thể trao clan của mình cho một người chơi.";
 $string["notInYourClan"] = "Người chơi này không thuộc clan của bạn!";
 $string["givedClan"] = "Bạn đã trao thành công clan của mình cho <b>%s</b>!";
 $string["deletedClan"] = "Bạn đã xóa clan <b>%s</b>.";
@@ -294,8 +294,8 @@ $string["yourClan"] = "Clan của bạn";
 $string["members0"] = "<b>1</b> thành viên";
 $string["members1"] = "<b>%d</b> thành viên";
 $string["members2"] = "<b>%d</b> thành viên";
-$string["noRequests"] = "Không có yêu cầu nào. Hãy thư giãn!";
-$string["pendingRequests"] = "Yêu cầu clan";
+$string["noRequests"] = "Không có yêu cầu nào. Thư giãn đi!";
+$string["pendingRequests"] = "Yêu cầu vào clan";
 $string["closedClan"] = "Clan đã đóng";
 $string["kickMember"] = "Kick thành viên";
 $string["leaveFromClan"] = "Rời khỏi clan";
@@ -312,13 +312,15 @@ $string["create"] = "Tạo";
 $string["mainSettings"] = "Cài đặt chính";
 $string["takenClanName"] = "Tên clan này đã được sử dụng!";
 $string["takenClanTag"] = "Thẻ clan này đã được sử dụng!";
+$string["badClanName"] = "Vui lòng hãy chọn tên clan khác.";
+$string["badClanTag"] = "Vui lòng hãy chọn tên clan khác.";
 
 $string["suggestedName"] = '<button type="button" onclick="a(\'profile/%1$s\', true, true)" class="accbtn" name="accountID">%1 $s</button><text class="dltext"> đã đề xuất <b>%4$s%3$s</b> cho</text><text class="levelname">%2$s</text >';
 $string["reportedName"] = '%1$s<text class="dltext"> đã được báo cáo</text><text class="levelname">%2$s</text>';
 
 $string['listTable'] = "Danh sách";
-$string['listTableMod'] = "Danh sách bị ẩn";
-$string['listTableYour'] = "Danh sách bị ẩn của bạn";
+$string['listTableMod'] = "Danh sách không công khai";
+$string['listTableYour'] = "Danh sách không công khai của bạn";
 
 $string['forgotPasswordChangeTitle'] = "Đổi mật khẩu";
 $string["successivelyChangedPass"] = "Mật khẩu đã được thay đổi thành công!";
@@ -327,24 +329,21 @@ $string['maybeSentAMessage'] = "Chúng tôi sẽ gửi tin nhắn cho bạn nế
 $string['forgotPasswordDesc'] = "Tại đây bạn có thể yêu cầu liên kết thay đổi mật khẩu nếu bạn quên!";
 $string['forgotPasswordButton'] = "Yêu cầu liên kết";
 
-/*
-SFX
-*/
-
 $string['sfxAdd'] = "Thêm SFX";
 $string["sfxAddError-5"] = "Kích thước của SFX lớn hơn $SFXsize megabyte!";
 $string["sfxAddError-6"] = "Đã xảy ra lỗi khi tải lên SFX!";
 $string["sfxAddError-7"] = "Bạn chỉ có thể tải lên âm thanh!";
 $string['sfxAdded'] = 'Đã thêm SFX';
 $string['yourNewSFX'] = "Nghe thử SFX mới của bạn!";
-$string["sfxAddAnotherBTN"] = "Thêm một SFX nữa?";
+$string["sfxAddAnotherBTN"] = "Muốn tải lên một SFX nữa?";
 $string["sfxAddDesc"] = "Tại đây bạn có thể thêm SFX của mình!";
 $string["chooseSFX"] = "Chọn SFX";
 $string["sfxAddNameFieldPlaceholder"] = "Tên";
 $string['sfxs'] = 'SFX';
 $string['sfxID'] = 'SFX ID';
 $string['manageSFX'] = 'Quản lý SFX';
-$string['featureLevel'] = 'Feature level';
+
+$string['featureLevel'] = 'Level nổi bật';
 
 $string['banList'] = 'Danh sách người bị cấm';
 $string['expires'] = 'Hết hạn';
@@ -360,15 +359,15 @@ $string['system'] = 'Hệ thống';
 $string['levelComments'] = 'Level comments';
 $string['levelLeaderboards'] = 'Bảng xếp hạng level';
 $string['manageLevel'] = 'Quản lý level';
-$string['noComments'] = 'Không có comments!';
-$string['commentHere'] = 'Đăng comments...';
+$string['noComments'] = 'Không có comment nào!';
+$string['commentHere'] = 'Đăng comment...';
 $string['weekLeaderboards'] = 'Trong một tuần';
 $string['noLeaderboards'] = 'Không có bảng xếp hạng!';
 $string['manageLevelDesc'] = 'Ở đây bạn có thể thay đổi level!';
-$string['silverCoins'] = 'Xu Bạc';
-$string['unlistedLevel'] = 'Level đã ẩn';
+$string['silverCoins'] = 'Xu bạc';
+$string['unlistedLevel'] = 'Level không công khai';
 $string['lockUpdates'] = 'Khóa cập nhật';
-$string['lockCommenting'] = 'Khóa comments';
+$string['lockCommenting'] = 'Khóa comment';
 $string['successfullyChangedLevel'] = 'Bạn đã thay đổi level thành công!';
 $string['successfullyDeletedLevel'] = 'Bạn đã xóa level thành công!';
 
@@ -377,34 +376,27 @@ $string['resendMailHint'] = 'Không nhận được tin nhắn?';
 $string['resendMailDesc'] = 'Tại đây bạn có thể gửi lại email nếu bạn không nhận được tin nhắn!';
 $string['resendMailButton'] = 'Gửi tin nhắn';
 
-/*
-Automod
-*/
-
 $string['automodTitle'] = 'Automod';
-$string['possibleLevelsSpamming'] = 'Có thể spam level';
+$string['possibleLevelsSpamming'] = 'Có thể là spam level';
 $string['disableLevelsUploading'] = 'Tắt chức năng tải lên level';
-$string['possibleAccountsSpamming'] = 'Có thể spam tài khoản';
+$string['possibleAccountsSpamming'] = 'Có thể là các tài khoản spam';
 $string['disableAccountsRegistering'] = 'Tắt chức năng đăng ký tài khoản';
-$string['possibleCommentsSpamming'] = 'Có thể spam bình luận';
+$string['possibleCommentsSpamming'] = 'Có thể là các bình luận spam';
 $string['disableComments'] = 'Tắt chức năng bình luận';
 $string['similarCommentsCount'] = 'Số lượng bình luận tương tự';
-$string['similarityValueOfAllComments'] = 'Giá trị tương tự trong số tất cả các bình luận';
-$string['possibleCommentsSpammer'] = 'Có thể spam bình luận';
-
+$string['similarityValueOfAllComments'] = 'Nội dung tương tự trong số tất cả các bình luận';
+$string['possibleCommentsSpammer'] = 'Có thể là người spam bình luận';
 $string['banCommenting'] = 'Cấm bình luận';
 $string['spammerUsername'] = 'Tên người dùng của người gửi thư rác';
 $string['possibleAccountPostsSpamming'] = 'Có thể tài khoản đang gửi thư rác';
 $string['disablePosting'] = 'Tắt chức năng đăng bài';
 $string['similarPostsCount'] = 'Số lượng bài đăng tương tự';
-$string['similarityValueOfAllPosts'] = 'Giá trị tương tự trong số tất cả các bài đăng';
+$string['similarityValueOfAllPosts'] = 'Nội dung tương tự trong số tất cả các bài đăng';
 $string['possibleAccountPostsSpammer'] = 'Có thể tài khoản đang gửi thư rác';
 $string['possibleRepliesSpamming'] = 'Có thể trả lời thư rác';
-$string['possibleRepliesSpammer'] = 'Có thể trả lời thư rác';
-$string['possibleRepliesSpammer'] = 'Có thể trả lời thư rác';
+$string['possibleRepliesSpammer'] = 'Có thể là người spam trở lời';
 $string['similarRepliesCount'] = 'Số lượng trả lời tương tự';
-
-$string['similarityValueOfAllReplies'] = 'Giá trị tương tự trong tất cả các phản hồi';
+$string['similarityValueOfAllReplies'] = 'Nội dung tương tự trong tất cả các phản hồi';
 $string['unknownWarning'] = 'Cảnh báo không xác định';
 $string['before'] = 'Trước';
 $string['after'] = 'Sau';
@@ -433,17 +425,20 @@ $string['disableAccountsRegistering'] = 'Tắt chức năng đăng ký tài kho�
 $string['disableAccountPosting'] = 'Tắt chức năng đăng bài viết cho tài khoản';
 $string['disableUpdatingProfileStats'] = 'Tắt chức năng cập nhật số liệu thống kê cho hồ sơ';
 $string['disableMessaging'] = 'Tắt chức năng nhắn tin';
+
 $string['cantPostCommentsAboveChars'] = 'Bạn không thể đăng bình luận có độ dài trên %1$s ký tự!';
 $string['replyingIsDisabled'] = 'Hiện tại, chức năng trả lời bình luận đã bị tắt!';
 $string['youAreBannedFromCommenting'] = 'Bạn đã bị cấm bình luận!';
 $string['cantPostAccountCommentsAboveChars'] = 'Bạn không thể đăng bình luận có độ dài trên %1$s ký tự!';
 $string['commentingIsDisabled'] = 'Hiện tại, chức năng bình luận đã bị tắt!';
 $string['noWarnings'] = 'Không có cảnh báo';
+$string['messagingIsDisabled'] = 'Tin nhắn trực tiếp đang bị vô hiệu hóa!';
 
 $string['downloadLevelAsGMD'] = 'Lưu dưới dạng .gmd';
+
 $string['songIsAvailable'] = 'Có sẵn';
 $string['songIsDisabled'] = 'Không có sẵn';
-$string['disabledSongs'] = 'Bài hát bị vô hiệu hóa';
+$string['disabledSongs'] = 'Nhạc bị vô hiệu hóa';
 $string['disabledSFXs'] = 'SFX bị vô hiệu hóa';
 
 $string['vaultCodesTitle'] = 'Thêm mã vault';
@@ -459,7 +454,8 @@ $string['vaultCodeName'] = 'Mã';
 $string['vaultCodeUses'] = 'Số lần sử dụng (0 cho số lần sử dụng vô hạn)';
 $string['editRewards'] = 'Thay đổi phần thưởng';
 $string['rewards'] = 'Phần thưởng';
-$string['alsoBanIP'] = 'Cũng cấm IP';
+
+$string['alsoBanIP'] = 'Cũng là cấm IP';
 
 /*
 TẢI LẠI
@@ -471,28 +467,28 @@ $string["smthWentWrong"] = "Đã có lỗi xảy ra!";
 $string["tryAgainBTN"] = "Thử lại";
 //songAdd.php
 $string["songAddDesc"] = "Tại đây bạn có thể thêm nhạc của mình!";
-$string["songAddUrlFieldLabel"] = "URL bài hát: (Chỉ liên kết trực tiếp hoặc Dropbox)";
-$string["songAddUrlFieldPlaceholder"] = "URL bài hát";
+$string["songAddUrlFieldLabel"] = "URL nhạc: (Chỉ liên kết trực tiếp hoặc Dropbox)";
+$string["songAddUrlFieldPlaceholder"] = "URL nhạc";
 $string["songAddNameFieldPlaceholder"] = "Tên";
 $string["songAddAuthorFieldPlaceholder"] = "Tác giả";
-$string["songAddButton"] = "Chọn bài hát";
-$string["songAddAnotherBTN"] = "Một bài hát khác?";
-$string["songAdded"] = "Đã thêm bài hát!";
-$string["deletedSong"] = "Bạn đã xóa bài hát thành công";
-$string["songID"] = "ID bài hát: ";
-$string["songIDw"] = "ID bài hát";
+$string["songAddButton"] = "Chọn nhạc";
+$string["songAddAnotherBTN"] = "Tải lên một bài khác?";
+$string["songAdded"] = "Đã thêm nhạc!";
+$string["deletedSong"] = "Bạn đã xóa nhạc thành công";
+$string["songID"] = "ID nhạc: ";
+$string["songIDw"] = "ID nhạc";
 $string["songAuthor"] = "Tác giả";
-$string["size"] = "Kích thước";
+$string["size"] = "Dung lượng";
 $string["detele"] = "Xóa";
 $string["change"] = "Thay đổi";
-$string["chooseFile"] = "Chọn một bài hát";
-$string['yourNewSong'] = "Nghe thử bài hát mới của bạn!";
+$string["chooseFile"] = "Chọn một bài nhạc";
+$string['yourNewSong'] = "Hãy nghe thử bài nhạc mới của bạn!";
 ///lỗi
 $string["songAddError-2"] = "URL không hợp lệ";
-$string["songAddError-3"] = "Bài hát này đã được tải lên lại với ID:";
-$string["songAddError-4"] = "Không thể tải lại bài hát này lên";
-$string["songAddError-5"] = "Kích thước bài hát lớn hơn $songSize megabyte";
-$string["songAddError-6"] = "Đã xảy ra lỗi khi tải bài hát lên! :с";
+$string["songAddError-3"] = "Nhạc này đã được tải lên lại với ID:";
+$string["songAddError-4"] = "Không thể tải lại bài nhạc này lên";
+$string["songAddError-5"] = "Dung lượng nhạc lớn hơn $songSize megabyte";
+$string["songAddError-6"] = "Đã xảy ra lỗi khi tải bài nhạc lên! :с";
 $string["songAddError-7"] = "Bạn chỉ có thể tải lên âm thanh!";
 
 $string[400] = "Yêu cầu không hợp lệ!";
@@ -502,7 +498,9 @@ $string["403!"] = "Bạn không có quyền truy cập vào trang này!";
 $string[404] = "Không tìm thấy trang!";
 $string["404!"] = "Bạn có chắc là mình đã nhập địa chỉ chính xác không?";
 $string[500] = "Lỗi máy chủ nội bộ!";
-$string["500!"] = "Người viết mã đã mắc lỗi trong mã";
+$string["500!"] = "Người viết mã đã mắc lỗi trong mã,</br>
+hãy báo cáo về vấn đề này tại đây:</br>
+https://github.com/Cvolton/GMDprivateServer/pull/883";
 $string[502] = "Máy chủ ngừng hoạt động!";
 $string["502!"] = "Máy chủ đang bị quá tải.</br>
 Hãy quay lại sau trong vòng vài giờ!";
@@ -520,7 +518,7 @@ $string["stars"] = "Sao";
 $string["coins"] = "Xu";
 $string["accounts"] = "Tài khoản";
 $string["levels"] = "Levels";
-$string["songs"] = "Bài hát";
+$string["songs"] = "Nhạc";
 $string["author"] = "Người tạo";
 $string["name"] = "Tên";
 $string["date"] = "Ngày";
@@ -534,12 +532,12 @@ $string["isAdminYes"] = "Có";
 $string["isAdminNo"] = "Không";
 $string["userCoins"] = "Xu của người dùng";
 $string["time"] = "Thời gian";
-$string["deletedLevel"] = "Cấp độ đã xóa";
+$string["deletedLevel"] = "Level đã xóa";
 $string["mod"] = "Người điều hành";
 $string["count"] = "Số lượng hành động";
 $string["ratedLevels"] = "Level đã đánh giá";
 $string["lastSeen"] = "Lần cuối trực tuyến";
-$string["level"] = "Cấp độ";
+$string["level"] = "level";
 $string["pageInfo"] = "Hiển thị trang %s của %s";
 $string["first"] = "Đầu tiên";
 $string["previous"] = "Trước";
@@ -563,7 +561,7 @@ $string["moons"] = "Mặt trăng";
 $string["banDesc"] = "Tại đây bạn có thể cấm một người chơi!";
 $string["playerTop"] = 'Người chơi hàng đầu';
 $string["creatorTop"] = 'Người sáng tạo hàng đầu';
-$string["levelUploading"] = 'Đang tải lên các cấp độ';
+$string["levelUploading"] = 'Đang tải lên các level';
 $string["successivelyBanned"] = 'Người chơi <b>%1$s</b> có ID tài khoản <b>%2$s</b> đã bị cấm thành công!';
 $string["successivelyUnbanned"] = 'Người chơi <b>%1$s</b> có ID tài khoản <b>%2$s</b> đã được bỏ cấm thành công!';
 $string["commentBan"] = 'Đang bình luận';
@@ -579,7 +577,7 @@ $string["unban"] = "Bỏ cấm";
 $string["isBan"] = "Cấm";
 
 $string["noCoins"] = "Không có xu";
-$string["noReason"] = "Không có lý do";
+$string["noReason"] = "Không có lý do nào";
 $string["noActions"] = "Không có hành động nào";
 $string["noRates"] = "Không có đánh giá";
 
@@ -607,7 +605,7 @@ $string["modAction4"] = "Bỏ/đặt epic cho một level";
 $string["modAction5"] = "Đặt làm tính năng hàng ngày";
 $string["modAction6"] = "Xóa một level";
 $string["modAction7"] = "Thay đổi người tạo";
-$string["modAction8"] = "Đổi tên một cấp độ";
+$string["modAction8"] = "Đổi tên một level";
 $string["modAction9"] = "Thay đổi mật khẩu level";
 $string["modAction10"] = "Thay đổi độ khó demon";
 $string["modAction11"] = "Chia sẻ CP";
@@ -615,11 +613,11 @@ $string["modAction12"] = "Bỏ/công khai level";
 $string["modAction13"] = "Thay đổi mô tả level";
 $string["modAction14"] = "Bật/tắt LDM";
 $string["modAction15"] = "Bỏ cấm/cấm bảng xếp hạng";
-$string["modAction16"] = "Thay đổi ID bài hát";
+$string["modAction16"] = "Thay đổi ID nhạc";
 $string["modAction17"] = "Tạo một Map Pack";
 $string["modAction18"] = "Tạo một Gauntlet";
-$string["modAction19"] = "Thay đổi bài hát";
-$string["modAction20"] = "Cấp quyền Người kiểm duyệt cho người chơi";
+$string["modAction19"] = "Thay đổi nhạc";
+$string["modAction20"] = "Cấp quyền người điều hành cho người chơi";
 $string["modAction21"] = "Thay đổi Map Pack";
 $string["modAction22"] = "Thay đổi Gauntlet";
 $string["modAction23"] = "Thay đổi nhiệm vụ";
@@ -627,6 +625,8 @@ $string["modAction24"] = "Phân công lại một người chơi";
 $string["modAction25"] = "Tạo một nhiệm vụ";
 $string["modAction26"] = "Thay đổi tên người dùng/mật khẩu của người chơi";
 $string["modAction27"] = "Thay đổi SFX";
+$string["modAction28"] = "Người đã bị cấm";
+$string["modAction29"] = "Khóa/Bỏ khóa cập nhật level";
 $string["modAction30"] = "Đánh giá danh sách";
 $string["modAction31"] = "Gửi danh sách";
 $string["modAction32"] = "Bỏ/đặt nổi bật danh sách";
@@ -635,6 +635,8 @@ $string["modAction34"] = "Xóa danh sách";
 $string["modAction35"] = "Thay đổi người tạo danh sách";
 $string["modAction36"] = "Thay đổi tên danh sách";
 $string["modAction37"] = "Thay đổi mô tả danh sách";
+$string["modAction38"] = "Khóa/Bỏ khóa level comment";
+$string["modAction39"] = "Khóa/Bỏ khóa danh sách comment";
 $string["modAction40"] = "Đã xóa level đã gửi";
 $string["modAction41"] = "Level được đề xuất";
 $string["modAction42"] = "Đã tạo mã vault";

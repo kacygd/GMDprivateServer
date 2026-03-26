@@ -56,11 +56,11 @@ $customLibrary[] = array(4, 'Song File Hub', 'https://api.songfilehub.com', 1);
 // SFX converter API links, make one by using code from https://github.com/MegaSa1nt/GDPS-ConvertSFX
 // Template: $convertSFXAPI[] = "";
 
-$convertSFXAPI[] = "https://niko.gcs.icu";
-$convertSFXAPI[] = "https://lamb.gcs.icu";
-$convertSFXAPI[] = "https://omori.gcs.icu"; // You're welcome
-$convertSFXAPI[] = "https://im.gcs.icu";
-$convertSFXAPI[] = "https://hat.gcs.icu";
+$convertSFXAPI[] = "https://niko.gcs.skin";
+$convertSFXAPI[] = "https://lamb.gcs.skin";
+$convertSFXAPI[] = "https://omori.gcs.skin"; // You're welcome
+$convertSFXAPI[] = "https://im.gcs.skin";
+$convertSFXAPI[] = "https://hat.gcs.skin";
 $convertSFXAPI[] = "https://converter.m336.dev";
 
 /*
@@ -96,5 +96,17 @@ $disallowReuploadingNotUserLevels = false;
 */
 
 $useCobalt = true;
-$cobaltAPI[] = 'https://cobalt.gcs.icu';
+$cobaltAPI[] = 'https://cobalt.gcs.skin';
+
+/*
+	Geometry Dash icons renderer Server
+	
+	Dashboard shows icons of players, therefore it requires some server to get icons
+	
+	$iconsRendererServer — what server to use
+	
+	If gdicon.oat.zone doesn't work for you for some reason, you can use icons.gcs.skin
+*/
+
+$iconsRendererServer = 'https://gdicon.oat.zone';
 ?>

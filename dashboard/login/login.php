@@ -4,12 +4,12 @@ require "../incl/dashboardLib.php";
 require "../".$dbPath."incl/lib/connection.php";
 require "../".$dbPath."config/security.php";
 require "../".$dbPath."config/mail.php";
-$dl = new dashboardLib();
-require "../".$dbPath."incl/lib/generatePass.php";
-require "../".$dbPath."incl/lib/exploitPatch.php";
+require_once "../".$dbPath."incl/lib/generatePass.php";
+require_once "../".$dbPath."incl/lib/exploitPatch.php";
 require_once "../".$dbPath."incl/lib/mainLib.php";
+require_once "../".$dbPath."incl/lib/Captcha.php";
+$dl = new dashboardLib();
 $gs = new mainLib();
-require "../".$dbPath."incl/lib/Captcha.php";
 if(isset($_SESSION["accountID"]) && $_SESSION["accountID"] != 0) header('Location: ../');
 if(isset($_POST["resendMailUserName"]) && isset($_POST["resendMailEmail"]) && $mailEnabled) {
 	$dl->title($dl->getLocalizedString("resendMailTitle"));
@@ -86,15 +86,16 @@ if(isset($_POST["userName"]) && isset($_POST["password"])) {
 	}
 	$accountID = $gs->getAccountIDFromName($userName);
   	$_SESSION["accountID"] = $accountID;
+	$gs->logAction($accountID, 2);
   	$query = $db->prepare("SELECT auth FROM accounts WHERE accountID = :id");
   	$query->execute([':id' => $accountID]);
   	$auth = $query->fetch();
-    if($auth["auth"] == 'none') {
+    if(empty($auth["auth"]) || $auth["auth"] == 'none') {
           $auth = $gs->randomString(8);
           $query = $db->prepare("UPDATE accounts SET auth = :auth WHERE accountID = :id");
           $query->execute([':auth' => $auth, ':id' => $accountID]);
-		  setcookie('auth', $auth, 2147483647, '/');
-    } else setcookie('auth', $auth["auth"], 2147483647, '/');
+		  setcookie('auth', $auth, 2147483647, '/', '', true, true);
+    } else setcookie('auth', $auth["auth"], 2147483647, '/', '', true, true);
 	if(!empty($_SERVER["HTTP_REFERER"])) header('Location: '.$_SERVER["HTTP_REFERER"]);
 	else header('Location: ../');
 } else {
@@ -112,25 +113,8 @@ if(isset($_POST["userName"]) && isset($_POST["password"])) {
 				<input type="email" class="form-control" id="resendMailEmail" name="resendMailEmail" placeholder="'.$dl->getLocalizedString("email").'">
 			</div>
 			'.Captcha::displayCaptcha(true).'
-			<button type="submit" class="btn-primary btn-block" id="resendMailSubmit" disabled>'.$dl->getLocalizedString("resendMailButton").'</button>
+			<button type="submit" class="btn-primary" id="resendMailSubmit">'.$dl->getLocalizedString("resendMailButton").'</button>
 		</form>
-		<script>
-		$(document).on("keyup keypress change keydown", function() {
-		   const resendMailUserName = document.getElementById("resendMailUserName");
-		   const resendMailEmail = document.getElementById("resendMailEmail");
-		   const btn = document.getElementById("resendMailSubmit");
-		   if(!resendMailUserName.value.trim().length || !resendMailEmail.value.trim().length) {
-				btn.disabled = true;
-				btn.classList.add("btn-block");
-				btn.classList.remove("btn-primary");
-			} else {
-				btn.removeAttribute("disabled");
-				btn.classList.remove("btn-block");
-				btn.classList.remove("btn-size");
-				btn.classList.add("btn-primary");
-			}
-		});
-		</script>
 	</div>'));
 	}
 	$dl->title($dl->getLocalizedString("loginBox"));
@@ -144,25 +128,8 @@ if(isset($_POST["userName"]) && isset($_POST["password"])) {
 			<div class="field">
 				<input type="password" class="form-control" id="loginPagePassword" name="password" placeholder="'.$dl->getLocalizedString("enterPassword").'">
 			</div>'.(!$preactivateAccounts ? ($mailEnabled ? '<button style="margin: -15px 0px;" type="button" onclick="a(\'login/forgotPassword.php\')" class="forgotPassword">'.$dl->getLocalizedString("forgotPasswordTitle").'</button>' : '<button style="margin: -15px 0px;" type="button" onclick="a(\'login/activate.php\')" class="forgotPassword">'.$dl->getLocalizedString("activateAccount").'</button>') : '').'
-			<button type="submit" class="btn-primary btn-block" id="loginPageSubmit" disabled>'.$dl->getLocalizedString("login").'</button>
+			<button type="submit" class="btn-primary" id="loginPageSubmit">'.$dl->getLocalizedString("login").'</button>
 		</form>
-		<script>
-		$(document).on("keyup keypress change keydown", function() {
-		   const loginPageUserName = document.getElementById("loginPageUserName");
-		   const loginPagePassword = document.getElementById("loginPagePassword");
-		   const btn = document.getElementById("loginPageSubmit");
-		   if(!loginPageUserName.value.trim().length || !loginPagePassword.value.trim().length) {
-				btn.disabled = true;
-				btn.classList.add("btn-block");
-				btn.classList.remove("btn-primary");
-			} else {
-				btn.removeAttribute("disabled");
-				btn.classList.remove("btn-block");
-				btn.classList.remove("btn-size");
-				btn.classList.add("btn-primary");
-			}
-		});
-		</script>
 	</div>');
 }
 ?>
